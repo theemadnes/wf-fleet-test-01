@@ -46,6 +46,23 @@ gcloud compute networks create $VPC_2 --project=wf-host-01 --subnet-mode=custom 
 gcloud compute networks subnets create sub-02-us-central1 --project=wf-host-01 --range=10.128.0.0/20 --stack-type=IPV4_ONLY --network=$VPC_2 --region=us-central1 --enable-private-ip-google-access
 gcloud compute networks subnets create sub-02-us-east4 --project=wf-host-01 --range=10.150.0.0/20 --stack-type=IPV4_ONLY --network=$VPC_2 --region=us-east4 --enable-private-ip-google-access
 
+# add secondary pod ranges
+gcloud compute networks subnets update sub-01-us-central1 \
+    --region ${REGION_1} \
+    --add-secondary-ranges pod-range-us-central1="10.124.0.0/17"
+
+gcloud compute networks subnets update sub-01-us-east4 \
+    --region ${REGION_2} \
+    --add-secondary-ranges pod-range-us-east4="10.54.0.0/17"
+
+gcloud compute networks subnets update sub-02-us-central1 \
+    --region ${REGION_1} \
+    --add-secondary-ranges pod-range-us-central1="10.124.0.0/17"
+
+gcloud compute networks subnets update sub-02-us-east4 \
+    --region ${REGION_2} \
+    --add-secondary-ranges pod-range-us-east4="10.54.0.0/17"
+
 # enable shared VPC (after granting Shared VPC Admin role)
 gcloud beta compute shared-vpc enable $HOST_PROJECT
 
@@ -55,4 +72,60 @@ gcloud beta compute shared-vpc associated-projects add $SVC_PROJECT_1 \
 
 gcloud beta compute shared-vpc associated-projects add $SVC_PROJECT_2 \
 --host-project $HOST_PROJECT
+
+# grant permissions for subnets & firewall
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+--member "user:admin@alexmattson.altostrat.com" \
+--role "roles/compute.networkUser"
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+--member "serviceAccount:${SVC_PROJECT_1_NUM}@cloudservices.gserviceaccount.com" \
+--role "roles/compute.networkUser"
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+--member "serviceAccount:service-${SVC_PROJECT_1_NUM}@container-engine-robot.iam.gserviceaccount.com" \
+--role "roles/compute.networkUser"
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+--member "serviceAccount:${SVC_PROJECT_2_NUM}@cloudservices.gserviceaccount.com" \
+--role "roles/compute.networkUser"
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+--member "serviceAccount:service-${SVC_PROJECT_2_NUM}@container-engine-robot.iam.gserviceaccount.com" \
+--role "roles/compute.networkUser"
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+    --member=serviceAccount:service-${SVC_PROJECT_1_NUM}@container-engine-robot.iam.gserviceaccount.com \
+    --role=roles/compute.securityAdmin
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+    --member=serviceAccount:service-${SVC_PROJECT_2_NUM}@container-engine-robot.iam.gserviceaccount.com \
+    --role=roles/compute.securityAdmin
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+    --member serviceAccount:service-${SVC_PROJECT_1_NUM}@container-engine-robot.iam.gserviceaccount.com \
+    --role roles/container.hostServiceAgentUser
+
+gcloud projects add-iam-policy-binding $HOST_PROJECT \
+    --member serviceAccount:service-${SVC_PROJECT_2_NUM}@container-engine-robot.iam.gserviceaccount.com \
+    --role roles/container.hostServiceAgentUser
+
+# test visibility
+gcloud container subnets list-usable \
+    --project $SVC_PROJECT_1 \
+    --network-project $HOST_PROJECT
+
+# create GKE clusters
+gcloud --project=$SVC_PROJECT_1 container clusters create-auto \
+${GKE_SVC_1_01} --region ${REGION_1} \
+--release-channel rapid --labels mesh_id=proj-${HOST_PROJECT_NUM} \
+--enable-private-nodes --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_1} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_1}/subnetworks/sub-01-us-central1 \
+--cluster-secondary-range-name=pod-range-us-central1
+
+
+--services-ipv4-cidr="/24" --services-ipv4-
+
+
+--network=projects/$HOST_PROJECT/global/networks/shared-net \
+    --subnetwork=projects/$HOST_PROJECT/regions/COMPUTE_REGION/subnetworks/tier-1
 ```
