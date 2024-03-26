@@ -63,6 +63,23 @@ gcloud compute networks subnets update sub-02-us-east4 \
     --region ${REGION_2} \
     --add-secondary-ranges pod-range-us-east4="10.54.0.0/17"
 
+# add secondary service ranges 
+gcloud compute networks subnets update sub-01-us-central1 \
+    --region ${REGION_1} \
+    --add-secondary-ranges svc-range-us-central1="192.168.124.0/24"
+
+gcloud compute networks subnets update sub-01-us-east4 \
+    --region ${REGION_2} \
+    --add-secondary-ranges svc-range-us-east4="192.168.54.0/24"
+
+gcloud compute networks subnets update sub-02-us-central1 \
+    --region ${REGION_1} \
+    --add-secondary-ranges svc-range-us-central1="192.168.124.0/24"
+
+gcloud compute networks subnets update sub-02-us-east4 \
+    --region ${REGION_2} \
+    --add-secondary-ranges svc-range-us-east4="192.168.54.0/24"
+
 # enable shared VPC (after granting Shared VPC Admin role)
 gcloud beta compute shared-vpc enable $HOST_PROJECT
 
@@ -120,12 +137,6 @@ gcloud --project=$SVC_PROJECT_1 container clusters create-auto \
 ${GKE_SVC_1_01} --region ${REGION_1} \
 --release-channel rapid --labels mesh_id=proj-${HOST_PROJECT_NUM} \
 --enable-private-nodes --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_1} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_1}/subnetworks/sub-01-us-central1 \
---cluster-secondary-range-name=pod-range-us-central1
+--cluster-secondary-range-name=pod-range-us-central1 --services-secondary-range-name=svc-range-us-central1
 
-
---services-ipv4-cidr="/24" --services-ipv4-
-
-
---network=projects/$HOST_PROJECT/global/networks/shared-net \
-    --subnetwork=projects/$HOST_PROJECT/regions/COMPUTE_REGION/subnetworks/tier-1
 ```
