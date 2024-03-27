@@ -183,7 +183,7 @@ ${GKE_SVC_2_01} --region ${REGION_1} \
 --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_2} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_1}/subnetworks/sub-02-us-central1 \
 --cluster-secondary-range-name=pod-range-us-central1 --services-secondary-range-name=svc-range-us-central1
 
-gcloud --project=$SVC_PROJECT_1 container clusters create-auto --async \
+gcloud --project=$SVC_PROJECT_2 container clusters create-auto --async \
 ${GKE_SVC_2_02} --region ${REGION_2} \
 --release-channel rapid --labels mesh_id=proj-${HOST_PROJECT_NUM} \
 --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_2} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_2}/subnetworks/sub-02-us-east4 \
