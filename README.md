@@ -188,4 +188,16 @@ ${GKE_SVC_2_02} --region ${REGION_2} \
 --release-channel rapid --labels mesh_id=proj-${HOST_PROJECT_NUM} \
 --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_2} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_2}/subnetworks/sub-02-us-east4 \
 --cluster-secondary-range-name=pod-range-us-east4 --services-secondary-range-name=svc-range-us-east4
+
+# forgot, so enable GKE Enterprise
+gcloud services enable --project=$HOST_PROJECT \
+   anthos.googleapis.com \
+   gkehub.googleapis.com
+
+# enable CSM on all clusters in fleet
+gcloud container fleet mesh enable
+
+gcloud container fleet mesh update \
+    --management automatic \
+    --memberships ${GKE_SVC_1_01},${GKE_SVC_1_02},${GKE_SVC_2_01},${GKE_SVC_2_02}
 ```
