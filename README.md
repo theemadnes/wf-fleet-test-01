@@ -37,6 +37,32 @@ do
         certificatemanager.googleapis.com
 done
 
+# set up fleet permissions
+GKE_PROJECT_ID=$SVC_PROJECT_1
+FLEET_HOST_PROJECT_ID=$HOST_PROJECT
+FLEET_HOST_PROJECT_NUMBER=$(gcloud projects describe "${FLEET_HOST_PROJECT_ID}" --format "value(projectNumber)")
+gcloud projects add-iam-policy-binding "${FLEET_HOST_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.serviceAgent
+gcloud projects add-iam-policy-binding "${GKE_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.serviceAgent
+gcloud projects add-iam-policy-binding "${GKE_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.crossProjectServiceAgent
+
+GKE_PROJECT_ID=$SVC_PROJECT_2
+FLEET_HOST_PROJECT_NUMBER=$(gcloud projects describe "${FLEET_HOST_PROJECT_ID}" --format "value(projectNumber)")
+gcloud projects add-iam-policy-binding "${FLEET_HOST_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.serviceAgent
+gcloud projects add-iam-policy-binding "${GKE_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.serviceAgent
+gcloud projects add-iam-policy-binding "${GKE_PROJECT_ID}" \
+  --member "serviceAccount:service-${FLEET_HOST_PROJECT_NUMBER}@gcp-sa-gkehub.iam.gserviceaccount.com" \
+  --role roles/gkehub.crossProjectServiceAgent
+
 # manual VPC creation
 gcloud compute networks create $VPC_1 --project=wf-host-01 --subnet-mode=custom --mtu=1460 --bgp-routing-mode=regional
 gcloud compute networks subnets create sub-01-us-central1 --project=wf-host-01 --range=10.128.0.0/20 --stack-type=IPV4_ONLY --network=$VPC_1 --region=us-central1 --enable-private-ip-google-access
@@ -79,6 +105,12 @@ gcloud compute networks subnets update sub-02-us-central1 \
 gcloud compute networks subnets update sub-02-us-east4 \
     --region ${REGION_2} \
     --add-secondary-ranges svc-range-us-east4="192.168.54.0/24"
+
+# create super-permissive FW rule for VPC
+gcloud compute --project=$HOST_PROJECT firewall-rules create all-10 --direction=INGRESS --priority=1000 --network=$VPC_1 --action=ALLOW --rules=all --source-ranges=10.0.0.0/8
+gcloud compute --project=$HOST_PROJECT firewall-rules create all-10-2 --direction=INGRESS --priority=1000 --network=$VPC_2 --action=ALLOW --rules=all --source-ranges=10.0.0.0/8
+gcloud compute --project=$HOST_PROJECT firewall-rules create all-192 --direction=INGRESS --priority=1000 --network=$VPC_1 --action=ALLOW --rules=all --source-ranges=10.0.0.0/8
+gcloud compute --project=$HOST_PROJECT firewall-rules create all-192-2 --direction=INGRESS --priority=1000 --network=$VPC_2 --action=ALLOW --rules=all --source-ranges=10.0.0.0/8
 
 # enable shared VPC (after granting Shared VPC Admin role)
 gcloud beta compute shared-vpc enable $HOST_PROJECT
@@ -136,7 +168,7 @@ gcloud container subnets list-usable \
 gcloud --project=$SVC_PROJECT_1 container clusters create-auto \
 ${GKE_SVC_1_01} --region ${REGION_1} \
 --release-channel rapid --labels mesh_id=proj-${HOST_PROJECT_NUM} \
---enable-private-nodes --fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_1} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_1}/subnetworks/sub-01-us-central1 \
+--fleet-project=$HOST_PROJECT --network=projects/$HOST_PROJECT/global/networks/${VPC_1} --subnetwork=projects/$HOST_PROJECT/regions/${REGION_1}/subnetworks/sub-01-us-central1 \
 --cluster-secondary-range-name=pod-range-us-central1 --services-secondary-range-name=svc-range-us-central1
 
 ```
