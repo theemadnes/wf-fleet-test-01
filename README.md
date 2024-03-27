@@ -10,7 +10,7 @@ export SVC_PROJECT_2=wf-service-02
 
 export HOST_PROJECT_NUM=$(gcloud projects describe ${HOST_PROJECT} --format="value(projectNumber)")
 export SVC_PROJECT_1_NUM=$(gcloud projects describe ${SVC_PROJECT_1} --format="value(projectNumber)")
-export SVC_PROJECT_2_NUM=$(gcloud projects describe ${SVC_PROJECT_1} --format="value(projectNumber)")
+export SVC_PROJECT_2_NUM=$(gcloud projects describe ${SVC_PROJECT_2} --format="value(projectNumber)")
 
 export VPC_1=shared-vpc-01
 export VPC_2=shared-vpc-02
