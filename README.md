@@ -201,3 +201,299 @@ gcloud container fleet mesh update \
     --management automatic \
     --memberships ${GKE_SVC_1_01},${GKE_SVC_1_02},${GKE_SVC_2_01},${GKE_SVC_2_02}
 ```
+
+### result
+
+```
+$ gcloud container fleet mesh describe
+createTime: '2024-03-27T07:34:28.763072459Z'
+membershipSpecs:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+membershipStates:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:31.379160795Z'
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:42.678505172Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:38.254957403Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:33.281805608Z'
+name: projects/wf-host-01/locations/global/features/servicemesh
+resourceState:
+  state: ACTIVE
+spec: {}
+updateTime: '2024-03-27T07:42:49.606948856Z'
+admin_@cloudshell:~/wf-fleet-test-01 (wf-host-01)$ gcloud container fleet mesh describe
+createTime: '2024-03-27T07:34:28.763072459Z'
+membershipSpecs:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+membershipStates:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:31.379160795Z'
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:42.678505172Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:38.254957403Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:33.281805608Z'
+name: projects/wf-host-01/locations/global/features/servicemesh
+resourceState:
+  state: ACTIVE
+spec: {}
+updateTime: '2024-03-27T07:42:49.606948856Z'
+admin_@cloudshell:~/wf-fleet-test-01 (wf-host-01)$ gcloud container fleet mesh describe
+createTime: '2024-03-27T07:34:28.763072459Z'
+membershipSpecs:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    mesh:
+      management: MANAGEMENT_AUTOMATIC
+membershipStates:
+  projects/321878386322/locations/us-central1/memberships/gke-svc01-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:31.379160795Z'
+  projects/321878386322/locations/us-central1/memberships/gke-svc02-us-central1:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:42.678505172Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc01-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:38.254957403Z'
+  projects/321878386322/locations/us-east4/memberships/gke-svc02-us-east4:
+    servicemesh:
+      controlPlaneManagement:
+        details:
+        - code: REVISION_FAILED_PRECONDITION
+          details: An internal error has occurred. Please contact customer support.
+            This will be retried within 15 minutes.
+        state: FAILED_PRECONDITION
+      dataPlaneManagement:
+        details:
+        - code: DISABLED
+          details: Data Plane Management is not enabled.
+        state: DISABLED
+    state:
+      code: ERROR
+      description: 'Revision reporting unhealthy: asm-managed-rapid. Please visit
+        https://cloud.google.com/service-mesh/docs/troubleshooting/troubleshoot-intro
+        for details.'
+      updateTime: '2024-03-27T07:42:33.281805608Z'
+name: projects/wf-host-01/locations/global/features/servicemesh
+resourceState:
+  state: ACTIVE
+spec: {}
+updateTime: '2024-03-27T07:42:49.606948856Z'
+```
